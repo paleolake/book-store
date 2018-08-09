@@ -1,0 +1,3 @@
+rootProject.name = 'book-store-parent'
+include 'book-store-servlet'
+
