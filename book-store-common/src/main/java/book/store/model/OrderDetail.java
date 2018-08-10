@@ -12,6 +12,8 @@ public class OrderDetail implements Serializable {
     private Integer bookCount;
     private Date updateTime;
 
+    private String bookName;
+
     public OrderDetail() {
     }
 
@@ -70,5 +72,11 @@ public class OrderDetail implements Serializable {
         this.updateTime = updateTime;
     }
 
+    public String getBookName() {
+        return bookName;
+    }
 
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
+    }
 }

@@ -1,6 +1,5 @@
 package book.store.util;
 
-import book.store.common.DBManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -10,7 +9,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class ConfigUtils {
-    private static final Logger logger = LogManager.getLogger(DBManager.class.getCanonicalName());
+    private static final Logger logger = LogManager.getLogger(ConfigUtils.class.getCanonicalName());
     private static Properties properties;
 
     /**
@@ -68,7 +67,7 @@ public class ConfigUtils {
             if (configFile.exists()) {
                 input = new FileInputStream(configFile);
             } else {
-                ClassLoader classLoader = DBManager.class.getClassLoader();
+                ClassLoader classLoader = ConfigUtils.class.getClassLoader();
                 input = classLoader.getResourceAsStream(fileName);
             }
             p.load(input);

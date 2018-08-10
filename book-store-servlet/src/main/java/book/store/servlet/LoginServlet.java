@@ -1,4 +1,4 @@
-package book.store.view;
+package book.store.servlet;
 
 import book.store.common.Constants;
 import book.store.common.Result;
@@ -14,15 +14,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet(name = "register", value = "/register.htm")
-public class RegisterServlet extends HttpServlet {
+@WebServlet(name = "login", value = "/login.htm")
+public class LoginServlet extends BaseHttpServlet {
     private final Logger logger = LogManager.getLogger(getClass().getName());
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req, resp);
+        req.getRequestDispatcher("/WEB-INF/views/jsp/account/login.jsp").forward(req, resp);
     }
 
     @Override
@@ -31,26 +32,28 @@ public class RegisterServlet extends HttpServlet {
             String mobileNo = req.getParameter("mobileNo");
             if (StringUtils.isBlank(mobileNo) || !CheckUtils.checkMobileNo(mobileNo)) {
                 req.setAttribute("error", "手机号码不合法！");
-                req.getRequestDispatcher("/WEB-INF/views/jsp/account/register.jsp").forward(req, resp);
+                req.getRequestDispatcher("/WEB-INF/views/jsp/account/login.jsp").forward(req, resp);
                 return;
             }
             String password = req.getParameter("password");
             if (StringUtils.isBlank(password) || !CheckUtils.checkPsw(password)) {
                 req.setAttribute("error", "登录密码不合法！");
-                req.getRequestDispatcher("/WEB-INF/views/jsp/account/register.jsp").forward(req, resp);
+                req.getRequestDispatcher("/WEB-INF/views/jsp/account/login.jsp").forward(req, resp);
                 return;
             }
 
-            Customer customer = new Customer();
-            customer.setMobileNo(mobileNo);
-            customer.setPassword(password);
-            Result<Customer> result = CustomerService.getInstance().addCustomer(customer);
+            Result<Customer> result = serviceFactory.createService(CustomerService.class).login(mobileNo, password);
             if (!result.isSuccess()) {
                 req.setAttribute("error", result.getError());
-                req.getRequestDispatcher("/WEB-INF/views/jsp/account/register.jsp").forward(req, resp);
+                req.getRequestDispatcher("/WEB-INF/views/jsp/account/login.jsp").forward(req, resp);
                 return;
             }
-            req.getSession(true).setAttribute(Constants.SESSION_CUSTOMER, customer);
+            //作废登录前的会话
+            HttpSession session = req.getSession(false);
+            if (session != null) {
+                session.invalidate();
+            }
+            req.getSession(true).setAttribute(Constants.SESSION_CUSTOMER, result.getModel());
             req.getRequestDispatcher("/WEB-INF/views/jsp/common/success.jsp").forward(req, resp);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

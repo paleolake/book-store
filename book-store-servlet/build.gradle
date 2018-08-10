@@ -13,15 +13,10 @@ repositories {
 }
 
 dependencies {
-    compile group: 'commons-dbutils', name: 'commons-dbutils', version: '1.7'
-    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.42'
-    compile group: 'org.apache.commons', name: 'commons-dbcp2', version: '2.5.0'
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
-    compile group: 'commons-codec', name: 'commons-codec', version: '1.11'
+    compile project(':book-store-common')
+    compile project(':book-store-service-dbutils')
     compile group: 'javax.servlet', name: 'jstl', version: '1.2'
     compile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
-    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.8.2'
-    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.8.2'
     testCompile group: 'junit', name: 'junit', version: '4.11'
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }

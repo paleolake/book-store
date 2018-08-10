@@ -6,7 +6,6 @@ import java.util.Date;
 
 public class Customer implements Serializable {
     private Integer id;
-    private String nickname;
     private String email;
     private String mobileNo;
     private String password;
@@ -24,14 +23,6 @@ public class Customer implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
     }
 
     public String getEmail() {

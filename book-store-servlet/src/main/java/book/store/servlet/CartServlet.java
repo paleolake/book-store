@@ -1,4 +1,4 @@
-package book.store.view;
+package book.store.servlet;
 
 import book.store.common.Constants;
 import book.store.model.Book;
@@ -17,8 +17,8 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-@WebServlet(name = "card", value = {"/card.htm", "/card/addBook.htm"})
-public class CartServlet extends HttpServlet {
+@WebServlet(name = "card", value = {"/card.htm", "/card/addBook.htm", "/card/buy.htm"})
+public class CartServlet extends BaseHttpServlet {
     private final Logger logger = LogManager.getLogger(getClass().getName());
 
     @Override
@@ -29,19 +29,20 @@ public class CartServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            if (StringUtils.contains(req.getRequestURI(), "/card/addBook")) {
+            //加入购物车和立即购买
+            if (StringUtils.contains(req.getRequestURI(), "/card/addBook") || StringUtils.contains(req.getRequestURI(), "/card/buy.htm")) {
                 String bookId = req.getParameter("bookId");
                 String price = req.getParameter("price");
                 if (StringUtils.isBlank(bookId) || StringUtils.isBlank(price)) {
-                    resp.getWriter().write("false:参数非法！");
-                    resp.getWriter().flush();
+                    req.setAttribute("error", "参数非法！");
+                    req.getRequestDispatcher("/WEB-INF/views/jsp/common/error.jsp").forward(req, resp);
                     return;
                 }
 
-                Book book = BookService.getInstance().findById(Integer.parseInt(bookId));
+                Book book = serviceFactory.createService(BookService.class).findById(Integer.parseInt(bookId));
                 if (book == null || book.getPrice() < Double.parseDouble(price)) {
-                    resp.getWriter().write("false:参数非法！");
-                    resp.getWriter().flush();
+                    req.setAttribute("error", "参数非法！");
+                    req.getRequestDispatcher("/WEB-INF/views/jsp/common/error.jsp").forward(req, resp);
                     return;
                 }
                 Map<String, CardDetail> details = (Map<String, CardDetail>) req.getSession(true).getAttribute(Constants.CARD_DETAIL);
@@ -56,8 +57,12 @@ public class CartServlet extends HttpServlet {
                 } else {
                     details.put(bookId, new CardDetail(book, Double.parseDouble(price), 1));
                 }
-                resp.getWriter().write("true:成功加入购物车！");
-                resp.getWriter().flush();
+                req.setAttribute("cardDetails", details.values());
+                if (StringUtils.contains(req.getRequestURI(), "/card/addBook")) {
+                    req.getRequestDispatcher("/WEB-INF/views/jsp/trade/card.jsp").forward(req, resp);
+                } else {
+                    resp.sendRedirect(String.format("%s/account/buy.htm?bookId=%s", req.getContextPath(), bookId));
+                }
                 return;
             }
 

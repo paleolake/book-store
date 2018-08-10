@@ -1,9 +1,12 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <title>$Title$</title>
+    <title>操作成功</title>
 </head>
 <body>
-成功!!
+<jsp:include page="../common/hender.jsp"></jsp:include>
+<br/><br/>
+<h3>操作成功!!</h3>
 </body>
 </html>

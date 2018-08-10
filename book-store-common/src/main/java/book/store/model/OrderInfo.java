@@ -1,12 +1,14 @@
 package book.store.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 
 public class OrderInfo implements Serializable {
     private Integer id;
+    private Integer customerId;
     private String orderCode;
     private Double orderAmt;
     private OrderState orderState;
@@ -15,12 +17,27 @@ public class OrderInfo implements Serializable {
     private List<OrderDetail> orderDetails;
 
 
-    public enum OrderState {NONPAID, PAID, CANCELLED}
+    public enum OrderState {
+        NONPAID("未支付"),
+        PAID("已支付"),
+        CANCELLED("已取消");
+
+        private final String label;
+
+        OrderState(String label) {
+            this.label = label;
+        }
+
+        public String label() {
+            return this.label;
+        }
+    }
 
     public OrderInfo() {
     }
 
-    public OrderInfo(String orderCode, Double orderAmt, OrderState orderState, Date createTime, Date updateTime) {
+    public OrderInfo(Integer customerId, String orderCode, Double orderAmt, OrderState orderState, Date createTime, Date updateTime) {
+        this.customerId = customerId;
         this.orderCode = orderCode;
         this.orderAmt = orderAmt;
         this.orderState = orderState;
@@ -34,6 +51,14 @@ public class OrderInfo implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
     }
 
     public String getOrderCode() {
@@ -77,10 +102,10 @@ public class OrderInfo implements Serializable {
     }
 
     public List<OrderDetail> getOrderDetails() {
+        if (orderDetails == null) {
+            orderDetails = new ArrayList<>();
+        }
         return orderDetails;
     }
 
-    public void setOrderDetails(List<OrderDetail> orderDetails) {
-        this.orderDetails = orderDetails;
-    }
 }

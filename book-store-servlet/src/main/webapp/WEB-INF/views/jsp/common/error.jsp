@@ -2,10 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>$Title$</title>
+    <title> 操作失败</title>
 </head>
 <body>
-错误！！
+<jsp:include page="../common/hender.jsp"></jsp:include>
+<br/><br/>
+ 操作失败！！
 <br>
 错误原因：<c:out value="${error}"/>
 <c:forEach var="constraintViolation" items="${constraintViolations}">

@@ -1,11 +1,11 @@
-package book.store.view;
+package book.store.servlet;
 
 import book.store.common.Constants;
 import book.store.common.Num;
 import book.store.common.Result;
-import book.store.model.CardDetail;
-import book.store.model.OrderDetail;
-import book.store.model.OrderInfo;
+import book.store.model.*;
+import book.store.service.BookService;
+import book.store.service.CustomerService;
 import book.store.service.OrderService;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -23,8 +23,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "order", value = {"/order/detail.htm", "/buy.htm"})
-public class OrderServlet extends HttpServlet {
+@WebServlet(name = "order", value = {"/account/order.htm", "/account/buy.htm"})
+public class OrderServlet extends BaseHttpServlet {
     private final Logger logger = LogManager.getLogger(getClass().getName());
 
     @Override
@@ -35,7 +35,7 @@ public class OrderServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            if (StringUtils.contains(req.getRequestURI(), "/buy.htm")) {
+            if (StringUtils.contains(req.getRequestURI(), "/account/buy.htm")) {
                 String[] bookIds = req.getParameterValues("bookId");
                 if (bookIds == null || bookIds.length <= 0) {
                     req.setAttribute("error", "参数非法！");
@@ -43,7 +43,8 @@ public class OrderServlet extends HttpServlet {
                     return;
                 }
                 String orderCode = String.format("%s%s", DateFormatUtils.format(new Date(), "yyMMddHHmmssSSS"), RandomUtils.nextInt(10000, 99999));
-                OrderInfo orderInfo = new OrderInfo(orderCode, 0d, OrderInfo.OrderState.NONPAID, new Date(), new Date());
+                Customer customer = (Customer) req.getSession(true).getAttribute(Constants.SESSION_CUSTOMER);
+                OrderInfo orderInfo = new OrderInfo(customer.getId(), orderCode, 0d, OrderInfo.OrderState.NONPAID, new Date(), new Date());
                 for (String bookId : bookIds) {
                     Map<String, CardDetail> details = (Map<String, CardDetail>) req.getSession(true).getAttribute(Constants.CARD_DETAIL);
                     CardDetail cardDetail = details.get(bookId);
@@ -54,9 +55,9 @@ public class OrderServlet extends HttpServlet {
                     }
                     OrderDetail orderDetail = new OrderDetail(cardDetail.getBook().getId(), cardDetail.getAmount(), cardDetail.getCount(), new Date());
                     orderInfo.getOrderDetails().add(orderDetail);
-                    orderInfo.setOrderAmt(Num.create(orderInfo.getOrderAmt()).add(orderDetail.getBookAmt()).doubleValue());
+                    orderInfo.setOrderAmt(Num.create(cardDetail.getAmount()).mul(cardDetail.getCount()).add(orderInfo.getOrderAmt()).doubleValue());
                 }
-                Result<?> result = OrderService.getInstance().addOrder(orderInfo);
+                Result<?> result = serviceFactory.createService(OrderService.class).addOrder(orderInfo);
                 if (!result.isSuccess()) {
                     req.setAttribute("error", result.getError());
                     req.getRequestDispatcher("/WEB-INF/views/jsp/common/error.jsp").forward(req, resp);
@@ -69,7 +70,7 @@ public class OrderServlet extends HttpServlet {
             pageNo = (pageNo != null ? pageNo : "1");
             pageSize = (pageSize != null ? pageSize : "10");
             int beginIndex = (Integer.parseInt(pageNo) - 1) * Integer.parseInt(pageSize);
-            List<OrderInfo> orders = OrderService.getInstance().queryOrders(beginIndex, Integer.parseInt(pageSize));
+            List<OrderInfo> orders = serviceFactory.createService(OrderService.class).queryOrders(beginIndex, Integer.parseInt(pageSize));
             req.setAttribute("orders", orders);
             req.getRequestDispatcher("/WEB-INF/views/jsp/trade/order.jsp").forward(req, resp);
         } catch (Exception e) {

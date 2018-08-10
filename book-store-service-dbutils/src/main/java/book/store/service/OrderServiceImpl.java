@@ -4,10 +4,7 @@ import book.store.common.DBManager;
 import book.store.common.Result;
 import book.store.model.OrderDetail;
 import book.store.model.OrderInfo;
-import org.apache.commons.dbutils.BasicRowProcessor;
 import org.apache.commons.dbutils.DbUtils;
-import org.apache.commons.dbutils.GenerousBeanProcessor;
-import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 import org.apache.logging.log4j.LogManager;
@@ -17,31 +14,16 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-public class OrderService {
+public class OrderServiceImpl extends BaseService implements OrderService {
     private final Logger logger = LogManager.getLogger(getClass().getCanonicalName());
-    private static OrderService orderService;
-    private QueryRunner runner;
-    private BasicRowProcessor rowProcessor;
-
-    private OrderService() {
-        runner = new QueryRunner(DBManager.getDataSource());
-        rowProcessor = new BasicRowProcessor(new GenerousBeanProcessor());
-    }
-
-    public static synchronized OrderService getInstance() {
-        if (orderService == null) {
-            orderService = new OrderService();
-        }
-        return orderService;
-    }
-
 
     public Result<?> addOrder(OrderInfo orderInfo) {
         Connection conn = null;
         try {
+            conn = DBManager.getConnection();
             conn.setAutoCommit(false);
-            Integer orderId = runner.insert("INSERT INTO order_info(order_code,order_amt,order_state,create_time,update_time)VALUES(?,?,?,NOW(),NOW());",
-                    new ScalarHandler<>(), new Object[]{orderInfo.getOrderCode(), orderInfo.getOrderAmt(), orderInfo.getOrderState()});
+            Long orderId = runner.insert("INSERT INTO order_info(customer_id,order_code,order_amt,order_state,create_time,update_time)VALUES(?,?,?,?,NOW(),NOW());",
+                    new ScalarHandler<>(), new Object[]{orderInfo.getCustomerId(), orderInfo.getOrderCode(), orderInfo.getOrderAmt(), orderInfo.getOrderState().name()});
             Object[][] params = new Object[orderInfo.getOrderDetails().size()][4];
             for (int i = 0; i < orderInfo.getOrderDetails().size(); i++) {
                 OrderDetail detail = orderInfo.getOrderDetails().get(i);
@@ -68,8 +50,25 @@ public class OrderService {
 
     public List<OrderInfo> queryOrders(Integer beginIndex, Integer pageSize) {
         try {
-            String sql = "";
-            return runner.query(sql, new BeanListHandler<>(OrderInfo.class, rowProcessor), new Object[]{beginIndex, pageSize});
+            String sql = "select * from order_info limit ?,?;";
+            List<OrderInfo> orders = runner.query(sql, new BeanListHandler<>(OrderInfo.class, rowProcessor), new Object[]{beginIndex, pageSize});
+            StringBuffer params = new StringBuffer();
+            Integer[] orderIds = new Integer[orders.size()];
+            for (int i = 0; i < orderIds.length; i++) {
+                orderIds[i] = orders.get(i).getId();
+                params.append(",?");
+            }
+            sql = String.format("SELECT t1.*,t2.book_name FROM order_detail t1 LEFT JOIN book t2 ON t2.id = t1.book_id WHERE t1.order_id IN(%s)", params.substring(1));
+            List<OrderDetail> orderDetails = runner.query(sql, new BeanListHandler<>(OrderDetail.class, rowProcessor), orderIds);
+            for (OrderDetail detail : orderDetails) {
+                for (OrderInfo orderInfo : orders) {
+                    if (orderInfo.getId().intValue() == detail.getOrderId().intValue()) {
+                        orderInfo.getOrderDetails().add(detail);
+                        break;
+                    }
+                }
+            }
+            return orders;
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return null;

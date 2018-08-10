@@ -14,7 +14,7 @@
 <br/><br/>
 ${book.bookName}&nbsp;${book.price}<br/>
 ${book.author}&nbsp;${book.publisherName}&nbsp;${book.publishDate}<br/>
-<a href="card/addBook.htm?bookId=${book.id}">加入购物车</a>&nbsp;
-<a href="buy.htm?bookId=${book.id}">马上购买</a>
+<a href="/card/addBook.htm?bookId=${book.id}&price=${book.price}">加入购物车</a>&nbsp;
+<a href="/card/buy.htm?bookId=${book.id}&price=${book.price}">马上购买</a>
 </body>
 </html>
