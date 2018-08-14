@@ -23,9 +23,16 @@ public class JedisManager {
             poolConfig.setTimeBetweenEvictionRunsMillis(Duration.ofSeconds(30).toMillis());
             poolConfig.setNumTestsPerEvictionRun(3);
             poolConfig.setBlockWhenExhausted(true);
-            jedisPool = new JedisPool(poolConfig, "192.168.88.240", 6379);
+            jedisPool = new JedisPool(poolConfig, "127.0.0.1", 6379);
         }
         return jedisPool.getResource();
+    }
+
+    public static void main(String[] args) throws Exception {
+        Jedis jedis = JedisManager.getJedis();
+        jedis.lpush("test#1", "1000");
+        jedis.lpush("test#1", "2000");
+        System.out.println(jedis.lrange("test#1", 0, 1));
     }
 
 }

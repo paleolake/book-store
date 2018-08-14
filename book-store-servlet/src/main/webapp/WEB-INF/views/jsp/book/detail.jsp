@@ -5,12 +5,7 @@
     <title>网上书城首页</title>
 </head>
 <body>
-<c:if test="${SESSION_CUSTOMER == null}">
-<a href="login.htm">登录</a>
-<a href="register.htm">注册</a>
-</c:if>
-<a href="card.htm">购物车</a>
-<a href="../">首页</a>
+<jsp:include page="../common/hender.jsp"></jsp:include>
 <br/><br/>
 ${book.bookName}&nbsp;${book.price}<br/>
 ${book.author}&nbsp;${book.publisherName}&nbsp;${book.publishDate}<br/>

@@ -1,0 +1,147 @@
+<data>
+    <categories>
+        <category>
+            <id>1</id>
+            <parentId>0</parentId>
+            <categoryName>计算机</categoryName>
+        </category>
+        <category>
+            <id>2</id>
+            <parentId>0</parentId>
+            <categoryName>科普</categoryName>
+        </category>
+        <category>
+            <id>3</id>
+            <parentId>0</parentId>
+            <categoryName>设计</categoryName>
+        </category>
+        <category>
+            <id>4</id>
+            <parentId>0</parentId>
+            <categoryName>经管</categoryName>
+        </category>
+        <category>
+            <id>5</id>
+            <parentId>0</parentId>
+            <categoryName>生活自助</categoryName>
+        </category>
+        <category>
+            <id>6</id>
+            <parentId>0</parentId>
+            <categoryName>心理学</categoryName>
+        </category>
+        <category>
+            <id>7</id>
+            <parentId>0</parentId>
+            <categoryName>电工电子</categoryName>
+        </category>
+        <category>
+            <id>8</id>
+            <parentId>0</parentId>
+            <categoryName>高等数学</categoryName>
+        </category>
+        <category>
+            <id>9</id>
+            <parentId>0</parentId>
+            <categoryName>文艺</categoryName>
+        </category>
+        <category>
+            <id>10</id>
+            <parentId>0</parentId>
+            <categoryName>体育</categoryName>
+        </category>
+    </categories>
+
+    <books>
+        <book>
+            <id>1</id>
+            <categoryId>1</categoryId>
+            <bookName>代码之外的功夫：程序员精进之路</bookName>
+            <author>Gregory T. Brown (作者) 李志 (译者)</author>
+            <publisherName>人民邮电出版社</publisherName>
+            <price>24.99</price>
+            <publishDate>2018/08/13</publishDate>
+        </book>
+        <book>
+            <id>2</id>
+            <categoryId>2</categoryId>
+            <bookName>程序员的英语</bookName>
+            <author>朴栽浒 , 李海永 (作者) 颜廷连 (译者)</author>
+            <publisherName>人民邮电出版社</publisherName>
+            <price>41.65</price>
+            <publishDate>2018/08/13</publishDate>
+        </book>
+        <book>
+            <id>3</id>
+            <categoryId>3</categoryId>
+            <bookName>交互的未来：物联网时代设计原则</bookName>
+            <author>Amber Case (作者) 蒋文干 , 刘文仪 , 余声稳 , 王李 (译者)</author>
+            <publisherName>人民邮电出版社</publisherName>
+            <price>18.00</price>
+            <publishDate>2018/08/13</publishDate>
+        </book>
+        <book>
+            <id>4</id>
+            <categoryId>4</categoryId>
+            <bookName>设计驱动增长：可口可乐如何打造饮料帝国</bookName>
+            <author>David Butler , Linda Tischler (作者) 樊钢 (译者)</author>
+            <publisherName>人民邮电出版社</publisherName>
+            <price>50.15</price>
+            <publishDate>2018/08/13</publishDate>
+        </book>
+        <book>
+            <id>5</id>
+            <categoryId>5</categoryId>
+            <bookName>番茄工作法图解：简单易行的时间管理方法</bookName>
+            <author>Staffan Noteberg (作者) 大胖 (译者)</author>
+            <publisherName>人民邮电出版社</publisherName>
+            <price>33.15</price>
+            <publishDate>2018/08/13</publishDate>
+        </book>
+        <book>
+            <id>6</id>
+            <categoryId>6</categoryId>
+            <bookName>说服人要懂心理学</bookName>
+            <author>Susan M. Weinschenk (作者) 刘吉熙 , 杨硕 (译者)</author>
+            <publisherName>人民邮电出版社</publisherName>
+            <price>19.99</price>
+            <publishDate>2018/08/13</publishDate>
+        </book>
+        <book>
+            <id>7</id>
+            <categoryId>7</categoryId>
+            <bookName>电子工程师必读：元器件与技术</bookName>
+            <author>John M. Hughes (作者) 李薇濛 (译者)</author>
+            <publisherName>人民邮电出版社</publisherName>
+            <price>49.99</price>
+            <publishDate>2018/08/13</publishDate>
+        </book>
+        <book>
+            <id>8</id>
+            <categoryId>8</categoryId>
+            <bookName>程序员的数学3：线性代数</bookName>
+            <author>堀玄 , 平冈和幸 (作者) 卢晓南 (译者)</author>
+            <publisherName>人民邮电出版社</publisherName>
+            <price>67.15</price>
+            <publishDate>2018/08/13</publishDate>
+        </book>
+        <book>
+            <id>9</id>
+            <categoryId>9</categoryId>
+            <bookName>游戏剧本怎么写</bookName>
+            <author>佐佐木智广 (作者) 支鹏浩 (译者)</author>
+            <publisherName>人民邮电出版社</publisherName>
+            <price>50.15</price>
+            <publishDate>2018/08/13</publishDate>
+        </book>
+        <book>
+            <id>10</id>
+            <categoryId>10</categoryId>
+            <bookName>中村俊辅：任意球大师的“察知力”</bookName>
+            <author>（日）中村俊辅 (作者) 逸宁 (译者)</author>
+            <publisherName>人民邮电出版社</publisherName>
+            <price>38.25</price>
+            <publishDate>2018/08/13</publishDate>
+        </book>
+    </books>
+</data>

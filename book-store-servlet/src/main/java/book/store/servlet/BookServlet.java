@@ -2,18 +2,14 @@ package book.store.servlet;
 
 import book.store.model.Book;
 import book.store.service.BookService;
-import book.store.service.DefaultServiceFactory;
-import book.store.service.ServiceFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.Service;
 import java.io.IOException;
 
 @WebServlet(name = "book", value = "/book/detail.htm")

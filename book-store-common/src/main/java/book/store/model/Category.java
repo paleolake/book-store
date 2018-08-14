@@ -11,6 +11,17 @@ public class Category implements Serializable {
     private Date createTime;
     private Date updateTime;
 
+    public Category() {
+    }
+
+    public Category(Integer id, Integer parentId, String categoryName, Date createTime, Date updateTime) {
+        this.id = id;
+        this.parentId = parentId;
+        this.categoryName = categoryName;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -51,5 +62,14 @@ public class Category implements Serializable {
         this.updateTime = updateTime;
     }
 
-
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", parentId=" + parentId +
+                ", categoryName='" + categoryName + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
+    }
 }

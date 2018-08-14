@@ -47,7 +47,7 @@ public class OrderServlet extends BaseHttpServlet {
                 OrderInfo orderInfo = new OrderInfo(customer.getId(), orderCode, 0d, OrderInfo.OrderState.NONPAID, new Date(), new Date());
                 for (String bookId : bookIds) {
                     Map<String, CardDetail> details = (Map<String, CardDetail>) req.getSession(true).getAttribute(Constants.CARD_DETAIL);
-                    CardDetail cardDetail = details.get(bookId);
+                    CardDetail cardDetail = details.remove(bookId);
                     if (StringUtils.isBlank(bookId) || cardDetail == null) {
                         req.setAttribute("error", "参数非法！");
                         req.getRequestDispatcher("/WEB-INF/views/jsp/common/error.jsp").forward(req, resp);

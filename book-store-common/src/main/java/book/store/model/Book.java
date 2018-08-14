@@ -15,6 +15,20 @@ public class Book implements Serializable {
     private Date createTime;
     private Date updateTime;
 
+    public Book() {
+    }
+
+    public Book(Integer categoryId, String bookName, String author, String publisherName, Double price, Date publishDate) {
+        this.categoryId = categoryId;
+        this.bookName = bookName;
+        this.author = author;
+        this.publisherName = publisherName;
+        this.price = price;
+        this.publishDate = publishDate;
+        this.createTime = new Date();
+        this.updateTime = new Date();
+    }
+
     public Integer getId() {
         return id;
     }
@@ -87,5 +101,18 @@ public class Book implements Serializable {
         this.updateTime = updateTime;
     }
 
-
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", categoryId=" + categoryId +
+                ", bookName='" + bookName + '\'' +
+                ", author='" + author + '\'' +
+                ", publisherName='" + publisherName + '\'' +
+                ", price=" + price +
+                ", publishDate=" + publishDate +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
+    }
 }
