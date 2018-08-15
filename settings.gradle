@@ -3,4 +3,5 @@ include 'book-store-servlet'
 include 'book-store-common'
 include 'book-store-service-dbutils'
 include 'book-store-service-redis'
+include 'book-store-service-mongodb'
 

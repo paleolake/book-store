@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Date;
 
-public class CustomerServiceImpl extends BaseService implements CustomerService {
+public class CustomerServiceJdbcImpl extends BaseService implements CustomerService {
     private final Logger logger = LogManager.getLogger(getClass().getCanonicalName());
 
     public Result<Customer> addCustomer(Customer customer) {

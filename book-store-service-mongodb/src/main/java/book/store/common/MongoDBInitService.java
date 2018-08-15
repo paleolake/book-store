@@ -17,18 +17,17 @@ import java.io.File;
 import java.util.Date;
 import java.util.List;
 
-
-public class SystemInitManager {
+public class MongoDBInitService {
 
     public static void main(String[] args) throws Exception {
-        File inputFile = new File("book-store-service-redis/src/main/resources/data.xml");
+        File inputFile = new File("init/data.xml");
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
         Document doc = dBuilder.parse(inputFile);
         doc.getDocumentElement().normalize();
 
-        //清空redis中所有键值
-        JedisManager.getJedis().flushAll();
+        //删除数据库，重新初始化
+        MongoDBManager.dropDatabase(MongoDBManager.DEFAULT_DATABASE_NAME);
 
         //图书分类
         NodeList nList = doc.getElementsByTagName("category");

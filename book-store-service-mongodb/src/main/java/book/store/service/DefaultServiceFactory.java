@@ -11,10 +11,10 @@ public class DefaultServiceFactory implements ServiceFactory {
 
     static {
         instance = new HashMap<>();
-        instance.put("BookService", new BookServiceJdbcImpl());
-        instance.put("CustomerService", new CustomerServiceJdbcImpl());
-        instance.put("OrderService", new OrderServiceJdbcImpl());
-        instance.put("CategoryService", new CategoryServiceJdbcImpl());
+        instance.put("BookService", new BookServiceMongoDBImpl());
+        instance.put("CustomerService", new CustomerServiceMongoDBImpl());
+        instance.put("OrderService", new OrderServiceMongoDBImpl());
+        instance.put("CategoryService", new CategoryServiceMongoDBImpl());
         instance.put("serviceFactory", new DefaultServiceFactory());
     }
 

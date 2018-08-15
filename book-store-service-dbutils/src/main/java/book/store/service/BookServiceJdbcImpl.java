@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.Date;
 import java.util.List;
 
-public class BookServiceImpl extends BaseService implements BookService {
+public class BookServiceJdbcImpl extends BaseService implements BookService {
     private final Logger logger = LogManager.getLogger(getClass().getCanonicalName());
 
     public List<Book> queryBooks(Integer beginNum, Integer pageSize) {

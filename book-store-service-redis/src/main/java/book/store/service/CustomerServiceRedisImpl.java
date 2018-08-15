@@ -73,7 +73,11 @@ public class CustomerServiceRedisImpl implements CustomerService {
     @Override
     public Result<?> countByMobileNo(String mobileNo) {
         try (Jedis jedis = JedisManager.getJedis()) {
-            return new Result<>(true, jedis.llen(KEY_CUSTOMER_IDS).intValue());
+            long count = jedis.llen(KEY_CUSTOMER_IDS);
+            if (count > 0) {
+                return new Result(false);
+            }
+            return new Result(true);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return new Result<>(false, "程序异常！");

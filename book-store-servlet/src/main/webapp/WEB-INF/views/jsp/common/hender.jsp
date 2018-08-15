@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <a href="../../">首页</a>&nbsp;
-<a href="card.htm">购物车</a>&nbsp;
+<a href="../../card.htm">购物车</a>&nbsp;
 <c:choose>
     <c:when test="${SESSION_CUSTOMER == null}">
         <a href="../../login.htm">登录</a>&nbsp;
@@ -15,7 +15,7 @@
             String mobileNo = StringUtils.replace(customer.getMobileNo(), StringUtils.substring(customer.getMobileNo(), 3, 7), "****");
         %>
         <a href="../../account/order.htm">我的订单</a>&nbsp;
-        ${mobileNo}&nbsp;
-        <a href="../../logout.htm">登出</a>
+        <a href="../../logout.htm">登出</a>&nbsp;
+        <%=mobileNo%>
     </c:otherwise>
 </c:choose>

@@ -14,7 +14,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-public class OrderServiceImpl extends BaseService implements OrderService {
+public class OrderServiceJdbcImpl extends BaseService implements OrderService {
     private final Logger logger = LogManager.getLogger(getClass().getCanonicalName());
 
     public Result<?> addOrder(OrderInfo orderInfo) {
@@ -48,17 +48,17 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         }
     }
 
-    public List<OrderInfo> queryOrders(Integer beginIndex, Integer pageSize) {
+    public List<OrderInfo> queryOrders(Integer customerId, Integer beginIndex, Integer pageSize, Object... params) {
         try {
-            String sql = "select * from order_info limit ?,?;";
-            List<OrderInfo> orders = runner.query(sql, new BeanListHandler<>(OrderInfo.class, rowProcessor), new Object[]{beginIndex, pageSize});
-            StringBuffer params = new StringBuffer();
+            String sql = "select * from order_info where customer_id = ? limit ?,?;";
+            List<OrderInfo> orders = runner.query(sql, new BeanListHandler<>(OrderInfo.class, rowProcessor), new Object[]{customerId, beginIndex, pageSize});
+            StringBuffer symbols = new StringBuffer();
             Integer[] orderIds = new Integer[orders.size()];
             for (int i = 0; i < orderIds.length; i++) {
                 orderIds[i] = orders.get(i).getId();
-                params.append(",?");
+                symbols.append(",?");
             }
-            sql = String.format("SELECT t1.*,t2.book_name FROM order_detail t1 LEFT JOIN book t2 ON t2.id = t1.book_id WHERE t1.order_id IN(%s)", params.substring(1));
+            sql = String.format("SELECT t1.*,t2.book_name FROM order_detail t1 LEFT JOIN book t2 ON t2.id = t1.book_id WHERE t1.order_id IN(%s)", symbols.substring(1));
             List<OrderDetail> orderDetails = runner.query(sql, new BeanListHandler<>(OrderDetail.class, rowProcessor), orderIds);
             for (OrderDetail detail : orderDetails) {
                 for (OrderInfo orderInfo : orders) {

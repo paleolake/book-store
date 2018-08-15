@@ -9,6 +9,6 @@ public interface OrderService {
 
     Result<?> addOrder(OrderInfo orderInfo);
 
-    List<OrderInfo> queryOrders(Integer beginIndex, Integer pageSize);
+    List<OrderInfo> queryOrders(Integer customerId, Integer beginIndex, Integer pageSize, Object... params);
 
 }

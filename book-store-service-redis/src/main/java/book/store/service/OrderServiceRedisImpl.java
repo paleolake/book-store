@@ -20,7 +20,7 @@ public class OrderServiceRedisImpl implements OrderService {
     private final String KEY_ORDER_ID_CREATE = "order:orderId";//用于订单ID的生成
     private final String KEY_ORDER_DETAIL_ID_CREATE = "order:detailId";//用于订单明细ID的生成
     private final String KEY_ORDER = "order:%d";//订单信息的HASH KEY.
-    private final String KEY_ORDER_IDS = "order:orderIds";//订单ID集的LIST KEY.
+    private final String KEY_CUSTOMER_ORDER_IDS = "order:orderIds:%d";//订单ID集的LIST KEY.
     private final String KEY_ORDER_DETAIL = "order:detail:%d";//订单详细信息的HASH KEY
     private final String FIELD_ORDER_DETAIL_IDS = "order:detailIds";//订单详细信息的HASH KEY
 
@@ -55,7 +55,7 @@ public class OrderServiceRedisImpl implements OrderService {
                 detailIds.append(":" + detail.getId());
             }
             trans.hset(orderKey, FIELD_ORDER_DETAIL_IDS, detailIds.substring(1));//将订单明细ID保存到订单hashes中。
-            trans.rpush(KEY_ORDER_IDS, orderInfo.getId() + "");
+            trans.rpush(String.format(KEY_CUSTOMER_ORDER_IDS, orderInfo.getCustomerId()), orderInfo.getId() + "");
             trans.exec();
             return new Result(true);
         } catch (Exception e) {
@@ -65,9 +65,9 @@ public class OrderServiceRedisImpl implements OrderService {
     }
 
     @Override
-    public List<OrderInfo> queryOrders(Integer beginIndex, Integer pageSize) {
+    public List<OrderInfo> queryOrders(Integer customerId, Integer beginIndex, Integer pageSize, Object... params) {
         try (Jedis jedis = JedisManager.getJedis()) {
-            List<String> orderIds = jedis.lrange(KEY_ORDER_IDS, beginIndex, (beginIndex + pageSize));
+            List<String> orderIds = jedis.lrange(String.format(KEY_CUSTOMER_ORDER_IDS, customerId), beginIndex, (beginIndex + pageSize));
             List<OrderInfo> orders = new ArrayList<>(orderIds.size());
             for (String orderId : orderIds) {
                 OrderInfo orderInfo = findById(Integer.parseInt(orderId));

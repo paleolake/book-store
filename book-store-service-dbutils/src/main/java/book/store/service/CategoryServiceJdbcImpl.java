@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.Date;
 import java.util.List;
 
-public class CategoryServiceImpl extends BaseService implements CategoryService {
+public class CategoryServiceJdbcImpl extends BaseService implements CategoryService {
     private final Logger logger = LogManager.getLogger(getClass().getCanonicalName());
 
     @Override
