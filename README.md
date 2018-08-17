@@ -1,5 +1,5 @@
 ### 项目及模块说明
-图书商店程序，主要用于个人学习的用途，此项目除了一个共有模块（book-store-common）外，还包括两类模块，一类为前端模块，另一类为后端存取服务模块，这两类模块分别使用不同的技术实现，比如book-store-servlet，此前端模块实现servlet+jsp实现，而book-store-restful使用spring mvc实现rest风格的api。项目提供的功能有图书信息检索，顾客注册登录和购买图书等，下面分别对各个模块详细说明。
+* 图书商店程序，主要用于个人学习的用途，此项目除了一个共有模块（book-store-common）外，还包括两类模块，一类为前端模块，另一类为后端存取服务模块，这两类模块分别使用不同的技术实现，比如book-store-servlet，此前端模块实现servlet+jsp实现，而book-store-restful使用spring mvc实现rest风格的api。项目提供的功能有图书信息检索，顾客注册登录和购买图书等，下面分别对各个模块详细说明。
 
 ### 共有模块
 * book-store-common
