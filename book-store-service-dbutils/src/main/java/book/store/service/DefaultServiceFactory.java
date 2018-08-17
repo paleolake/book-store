@@ -15,6 +15,7 @@ public class DefaultServiceFactory implements ServiceFactory {
         instance.put("CustomerService", new CustomerServiceJdbcImpl());
         instance.put("OrderService", new OrderServiceJdbcImpl());
         instance.put("CategoryService", new CategoryServiceJdbcImpl());
+        instance.put("SystemService", new DBInitManager());
         instance.put("serviceFactory", new DefaultServiceFactory());
     }
 

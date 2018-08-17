@@ -71,7 +71,7 @@ public class OrderServlet extends BaseHttpServlet {
             pageSize = (pageSize != null ? pageSize : "10");
             int beginIndex = (Integer.parseInt(pageNo) - 1) * Integer.parseInt(pageSize);
             Customer customer = (Customer) req.getSession(true).getAttribute(Constants.SESSION_CUSTOMER);
-            List<OrderInfo> orders = serviceFactory.createService(OrderService.class).queryOrders(customer.getId(),beginIndex, Integer.parseInt(pageSize),null);
+            List<OrderInfo> orders = serviceFactory.createService(OrderService.class).queryOrders(customer.getId(), beginIndex, Integer.parseInt(pageSize), null);
             req.setAttribute("orders", orders);
             req.getRequestDispatcher("/WEB-INF/views/jsp/trade/order.jsp").forward(req, resp);
         } catch (Exception e) {

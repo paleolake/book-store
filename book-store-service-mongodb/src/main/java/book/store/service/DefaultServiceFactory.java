@@ -15,6 +15,7 @@ public class DefaultServiceFactory implements ServiceFactory {
         instance.put("CustomerService", new CustomerServiceMongoDBImpl());
         instance.put("OrderService", new OrderServiceMongoDBImpl());
         instance.put("CategoryService", new CategoryServiceMongoDBImpl());
+        instance.put("SystemService", new MongoDBInitManager());
         instance.put("serviceFactory", new DefaultServiceFactory());
     }
 

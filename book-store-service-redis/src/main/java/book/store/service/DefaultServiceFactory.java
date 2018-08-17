@@ -15,6 +15,7 @@ public class DefaultServiceFactory implements ServiceFactory {
         instance.put("CustomerService", new CustomerServiceRedisImpl());
         instance.put("OrderService", new OrderServiceRedisImpl());
         instance.put("CategoryService", new CategoryServiceRedisImpl());
+        instance.put("SystemService", new RedisInitManager());
         instance.put("serviceFactory", new DefaultServiceFactory());
     }
 

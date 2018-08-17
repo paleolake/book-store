@@ -24,7 +24,7 @@ public class IndexServlet extends BaseHttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            req.setAttribute("books", serviceFactory.createService(BookService.class).queryBooks(0, 10));
+            req.setAttribute("books", serviceFactory.createService(BookService.class).queryBooks(0, 10, null));
             req.getRequestDispatcher("/WEB-INF/views/jsp/index.jsp").forward(req, resp);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

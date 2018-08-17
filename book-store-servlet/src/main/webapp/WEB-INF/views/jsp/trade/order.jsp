@@ -8,24 +8,17 @@
 </head>
 <body>
 <h3>订单列表</h3>
-<table border="1">
-    <c:forEach var="order" items="${orders}">
-        <tr>
-            <td>
-                <c:forEach var="detail" items="${order.orderDetails}">
-                    ${detail.bookName}<br/>
-                    ￥${detail.bookAmt}<br/>
-                    ${detail.bookCount}本<br/>
-                </c:forEach>
-            </td>
-            <td>
-                订单编号：${order.orderCode}<br/>
-                ￥${order.orderAmt}<br/>
-                订单日期：<fmt:formatDate value="${order.createTime}" pattern="yyyy/MM/dd"></fmt:formatDate>
-                状态：${order.orderState.label()}
-            </td>
-        </tr>
+<jsp:include page="../common/hender.jsp"></jsp:include>
+<br/><br/>
+<c:forEach var="order" items="${orders}">
+    订单总金额：￥${order.orderAmt}
+    订单日期：<fmt:formatDate value="${order.createTime}" pattern="yyyy/MM/dd"></fmt:formatDate>&nbsp;
+    状态：${order.orderState.label()}&nbsp;
+    订单编号：${order.orderCode}<br/>
+    <c:forEach var="detail" items="${order.orderDetails}">
+        >><a href="../book/detail.htm?bookId=${detail.bookId}">${detail.bookName}</a>&nbsp;￥${detail.bookAmt}&nbsp;${detail.bookCount}本<br/>
     </c:forEach>
-</table>
+    <br/>
+</c:forEach>
 </body>
 </html>

@@ -14,7 +14,7 @@ import java.util.List;
 public class BookServiceJdbcImpl extends BaseService implements BookService {
     private final Logger logger = LogManager.getLogger(getClass().getCanonicalName());
 
-    public List<Book> queryBooks(Integer beginNum, Integer pageSize) {
+    public List<Book> queryBooks(Integer beginNum, Integer pageSize, Object... params) {
         try {
             return runner.query("SELECT * FROM book LIMIT ?,?;",
                     new BeanListHandler<>(Book.class, rowProcessor), new Object[]{beginNum, pageSize});

@@ -4,15 +4,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>网上书城首页</title>
+    <title>购物车</title>
 </head>
 <body>
 <h3>购物车</h3>
+<jsp:include page="../common/hender.jsp"></jsp:include>
+<br/><br/>
 <form action="/account/buy.htm" method="post">
     <c:forEach var="cardDetail" items="${cardDetails}">
         <input type="checkbox" name="bookId" value="${cardDetail.book.id}"/>
-        ${cardDetail.book.bookName}&nbsp;￥${cardDetail.book.price}&nbsp;
-        ${cardDetail.book.author}&nbsp;${cardDetail.book.publisherName}&nbsp;${cardDetail.count}本<br/>
+        <a href="../book/detail.htm?bookId=${cardDetail.book.id}">${cardDetail.book.bookName}</a>&nbsp;
+        ￥${cardDetail.book.price}&nbsp;
+        ${cardDetail.book.author}&nbsp;
+        ${cardDetail.count}本<br/>
     </c:forEach>
     <br/>
     <input type="button" value="立即购买" id="buy"/>

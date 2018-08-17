@@ -21,7 +21,7 @@ public class BookServiceMongoDBImpl implements BookService {
     private final String COLLECTION_NAME = "books";
 
     @Override
-    public List<Book> queryBooks(Integer beginNum, Integer pageSize) {
+    public List<Book> queryBooks(Integer beginNum, Integer pageSize, Object... params) {
         MongoClient mongoClient = null;
         MongoCursor<Document> cursor = null;
         try {

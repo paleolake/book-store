@@ -4,4 +4,5 @@ include 'book-store-common'
 include 'book-store-service-dbutils'
 include 'book-store-service-redis'
 include 'book-store-service-mongodb'
+include 'book-store-restful'
 

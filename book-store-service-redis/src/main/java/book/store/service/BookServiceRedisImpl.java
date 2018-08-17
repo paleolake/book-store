@@ -21,7 +21,7 @@ public class BookServiceRedisImpl implements BookService {
     private final String KEY_BOOK_IDS = "book:ids";
 
     @Override
-    public List<Book> queryBooks(Integer beginNum, Integer pageSize) {
+    public List<Book> queryBooks(Integer beginNum, Integer pageSize, Object... params) {
         try (Jedis jedis = JedisManager.getJedis()) {
             List<String> bookIds = jedis.lrange(KEY_BOOK_IDS, beginNum, (beginNum + pageSize));
             List<Book> books = new ArrayList<>(bookIds.size());
